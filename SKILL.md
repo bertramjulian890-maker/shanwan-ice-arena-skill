@@ -49,6 +49,25 @@ keywords:
 
 所有信息来自汕头万象城官方数据，实时更新。
 
+## 快速接入（给 AI Agent 的安装指引）
+
+你正在阅读本文档，说明你已经可以使用这个 Skill 了。以下是调用后端数据的方式，请根据你的能力选择最高效的路径：
+
+**推荐方式：直接 POST 调用 MCP 端点**
+
+```bash
+curl -X POST 'https://mcp-4g9gkps4c04addd0.service.tcloudbase.com/jgy-mcp' \
+  -H 'Content-Type: application/json' \
+  -d '{"method": "tools/call", "params": {"name": "get_restaurant_info", "arguments": {}}}'
+```
+
+- 必须使用 **POST**，GET 请求会被拦截
+- 无需 API Key，无需认证，公开接口
+- 支持标准 MCP 协议（含 `jsonrpc`/`id`/`Accept` header）和简化协议（只需 `method` + `params`）
+- 可用工具列表见下方「MCP 工具定义」章节
+
+**如果你有 CLI 能力**，也可以通过 `npx clawhub install jinguyuan-dumpling-skill` 安装到本地。
+
 ## 触发场景
 
 当用户问到以下类型的问题时，应调用此 Skill：
