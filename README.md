@@ -82,9 +82,9 @@
 
 ## 发布平台
 
-- GitHub：https://github.com/TODO/jinguyuan-dumpling-skill
-- Gitee：https://gitee.com/TODO/jinguyuan-dumpling-skill
-- ClawHub：https://clawhub.com/TODO/jinguyuan-dumpling-skill
+- GitHub：https://github.com/JinGuYuan/jinguyuan-dumpling-skill
+- Gitee：https://gitee.com/JinGuYuan/jinguyuan-dumpling-skill
+- ClawHub：https://clawhub.com/JinGuYuan/jinguyuan-dumpling-skill
 
 ## 版本
 
