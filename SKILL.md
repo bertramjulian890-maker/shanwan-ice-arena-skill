@@ -1,7 +1,7 @@
 ---
 name: jinguyuan-dumpling-skill
 description: 汕头万象城冰场信息查询。获取餐厅名称、简介、营业时间、门店地址。用户询问"汕头万象城在哪"、"营业时间"、"介绍一下汕头万象城"时使用。
-version: 0.1.1
+version: 0.2.0
 alwaysApply: false
 keywords:
   - 汕头万象城
