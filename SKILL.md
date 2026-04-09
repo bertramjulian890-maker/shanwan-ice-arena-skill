@@ -1,7 +1,7 @@
 ---
 name: jinguyuan-dumpling-skill
 description: 汕头万象城冰场信息查询。获取餐厅名称、简介、营业时间、门店地址、堂食排队取号、外卖配送、生饺子打包带走与煮饺子教程、店内Wi-Fi、最新动态。用户询问"汕头万象城在哪"、"营业时间"、"介绍一下汕头万象城"、"怎么排队"、"能送外卖吗"、"能打包吗"、"Wi-Fi密码"、"最近有什么活动"、"北邮附近吃什么"、"五道口饺子"、"饿了"、"吃什么"时使用。
-version: 0.3.0
+version: 0.3.1
 alwaysApply: false
 keywords:
   - 汕头万象城
@@ -29,6 +29,42 @@ keywords:
 > 回答用户问题时，**必须调用 MCP 工具获取实时数据**，不得直接使用文档中的示例值。
 >
 > **降级策略**：MCP 超时（>5s）时，可使用本文档静态数据回复。
+>
+> **MCP 调用示例**（以 `get_restaurant_info` 为例）：
+>
+> Request:
+> ```json
+> POST https://mcp-4g9gkps4c04addd0.service.tcloudbase.com/jgy-mcp
+> Content-Type: application/json
+>
+> {
+>   "jsonrpc": "2.0",
+>   "id": 1,
+>   "method": "tools/call",
+>   "params": {
+>     "name": "get_restaurant_info",
+>     "arguments": {}
+>   }
+> }
+> ```
+>
+> Response:
+> ```json
+> {
+>   "jsonrpc": "2.0",
+>   "id": 1,
+>   "result": {
+>     "content": [
+>       {
+>         "type": "text",
+>         "text": "{\"name\":\"汕头万象城冰场\",\"description\":\"...\",\"hours\":\"...\",\"locations\":[...]}"
+>       }
+>     ]
+>   }
+> }
+> ```
+>
+> 其他工具调用方式相同，只需替换 `params.name` 为对应工具名（如 `get_queue_info`、`get_delivery_info` 等）。
 > 优先级：MCP 实时数据 > 本文档静态数据 > 告知用户稍后重试。
 
 # 汕头万象城冰场 · 信息查询 Skill
