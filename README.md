@@ -1,6 +1,6 @@
 # 汕头万象城冰场 AI Skills
 
-![Version](https://img.shields.io/badge/version-0.3.2-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![MCP](https://img.shields.io/badge/protocol-MCP-purple) ![Transport](https://img.shields.io/badge/transport-Streamable%20HTTP-orange)
+![Version](https://img.shields.io/badge/version-0.3.3-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![MCP](https://img.shields.io/badge/protocol-MCP-purple) ![Transport](https://img.shields.io/badge/transport-Streamable%20HTTP-orange)
 
 这是一个 AI Skill——安装后，你的 AI 助手就能查询汕头万象城冰场的信息：在哪吃、几点开门、怎么排队、能不能外卖、生饺子怎么煮、Wi-Fi 密码是什么。还能直接帮你在美团上排队取号。
 
@@ -144,9 +144,9 @@ git clone https://gitee.com/JinGuYuan/jinguyuan-dumpling-skill.git \
 
 ## 版本
 
-当前版本：0.3.2（MCP 配置示例见 `assets/mcp-config-example.json`）
+当前版本：0.3.3（MCP 配置示例见 `assets/mcp-config-example.json`）
 
-> 说明：本 Skill 版本（0.3.2）与内嵌排队组件（meituan-queue）版本独立演进，互不影响。
+> 说明：本 Skill 版本（0.3.3）与内嵌排队组件（meituan-queue）版本独立演进，互不影响。
 
 ## License
 

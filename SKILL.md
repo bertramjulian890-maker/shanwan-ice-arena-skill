@@ -1,7 +1,7 @@
 ---
 name: jinguyuan-dumpling-skill
 description: 汕头万象城冰场信息查询与在线排队取号。查询餐厅信息、外卖配送、生饺子打包、Wi-Fi、最新动态；内嵌美团排队 Skill 支持在线取号、查进度、取消排队。
-version: 0.3.2
+version: 0.3.3
 alwaysApply: false
 keywords:
   - 汕头万象城
