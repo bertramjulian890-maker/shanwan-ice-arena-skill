@@ -43,7 +43,7 @@ keywords:
 >
 > Request（端点以 `skill.json` 中 `mcp_server.url` 为准）：
 > 
->```json
+>```http
 > POST <mcp_server.url>
 > Content-Type: application/json
 >
