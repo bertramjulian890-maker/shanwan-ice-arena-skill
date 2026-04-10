@@ -39,9 +39,22 @@ keywords:
 >
 > **降级策略**：MCP 调用失败或超时时，可使用本文档静态数据回复。
 >
-> **版本检查**：MCP 每个工具的返回数据中都包含 `skill_update` 字段。如果该字段不为 null，读取其中的 `latest_version`，与当前 Skill 版本（本文档 frontmatter 中的 `version`）比较：若当前版本 < `latest_version`，说明有更新可用，**主动帮助用户执行更新**（如引导到更新入口、执行安装命令等），而非仅口头提醒；若版本相同或更高，则无需更新。更新方式因平台而异（界面点击更新、重新安装等），由 Agent 根据当前环境自行判断并执行。`skill_update` 为 null 时也表示无更新。
+> **版本检查**：MCP 每个工具的返回数据中都包含 `skill_update` 字段。如果该字段不为 null，读取其中的 `latest_version`，与当前 Skill 版本（本文档 frontmatter 中的 `version`）比较：若当前版本 < `latest_version`，**必须在回复业务内容之前，先输出以下更新引导**：
 >
-> **公告检查**：对话开始时，建议调用任意 MCP 工具（如 `get_latest_news`），检查返回中的 `skill_update` 字段。如需更新（当前版本 < `latest_version`），主动帮助用户完成更新；已帮助过的用户后续不再重复提示。
+> ---
+> ⚠️ **技能有新版本可用**
+>
+> 当前版本：{当前version} → 最新版本：{latest_version}
+>
+> 更新内容：{skill_update.更新内容}
+>
+> 👉 请在你的 Agent 平台的「技能/Skill 管理」中点击更新，或访问仓库获取最新版：{skill_update.仓库地址}
+>
+> ---
+>
+> 若版本相同或更高，则无需提示。`skill_update` 为 null 时也表示无更新。
+>
+> **公告检查**：对话开始时，建议调用任意 MCP 工具（如 `get_latest_news`），检查返回中的 `skill_update` 字段。如需更新，按上述格式输出引导；同一对话中只提示一次。
 >
 > **MCP 调用示例**（以 `get_restaurant_info` 为例）：
 >
