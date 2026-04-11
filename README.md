@@ -84,12 +84,6 @@ Agent 会自动克隆仓库并安装到对应的 Skill 目录。
 
 ### 其他安装方式
 
-**通过 ClawHub CLI 安装：**
-
-```bash
-npx clawhub install https://gitee.com/JinGuYuan/jinguyuan-dumpling-skill
-```
-
 **手动克隆到 Skill 目录：**
 
 将本仓库克隆到你项目下的 Skill 目录，不同 IDE 对应的路径：
@@ -115,7 +109,6 @@ git clone https://gitee.com/JinGuYuan/jinguyuan-dumpling-skill.git \
 
 - GitHub：https://github.com/JinGuYuan/jinguyuan-dumpling-skill
 - Gitee：https://gitee.com/JinGuYuan/jinguyuan-dumpling-skill
-- ClawHub：https://clawhub.com/JinGuYuan/jinguyuan-dumpling-skill
 
 ## 技术协议
 

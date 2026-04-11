@@ -141,4 +141,3 @@ keywords:
 
 - GitHub：https://github.com/JinGuYuan/jinguyuan-dumpling-skill
 - Gitee：https://gitee.com/JinGuYuan/jinguyuan-dumpling-skill
-- ClawHub：https://clawhub.com/JinGuYuan/jinguyuan-dumpling-skill
