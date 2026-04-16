@@ -118,7 +118,7 @@ git clone https://gitee.com/JinGuYuan/jinguyuan-dumpling-skill.git \
 
 ## 版本
 
-当前版本：0.3.4
+当前版本：0.4.0
 
 > 说明：本 Skill 版本（0.3.4）与内嵌排队组件（meituan-queue）版本独立演进，互不影响。
 
