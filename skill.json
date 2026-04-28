@@ -85,11 +85,15 @@
     {
       "name": "get_hours_and_schedule",
       "display_name": "营业与冰时",
-      "description": "营业时间、清冰时段，以及按日期半小时粒度的 dynamic_schedule（公共场/活动栏场/清冰/闭店）。用户问「几点开门」「某天下午有没有公共场」「这周末是不是活动栏场」等使用。回答后宜补一句是否需要到店或购票入口。",
+      "description": "营业时间、清冰时段，以及按日期半小时粒度的 dynamic_schedule（公共场/活动栏场/清冰/闭店）。支持按日期/星期/状态关键词筛选，适合从长排班里快速定位「某天某时段能否滑」。",
       "inputSchema": {
         "type": "object",
         "properties": {
-          "venue_id": { "type": "string", "description": "场馆 ID，可选。" }
+          "venue_id": { "type": "string", "description": "场馆 ID，可选。" },
+          "date_keyword": { "type": "string", "description": "日期关键词，如「5月1日」「4月」；可选。" },
+          "weekday_keyword": { "type": "string", "description": "星期关键词，如「星期六」；可选。" },
+          "status_keyword": { "type": "string", "description": "状态关键词，如「活动栏场」「清冰」「公共场」；可选。" },
+          "limit_dates": { "type": "integer", "description": "最多返回多少个日期条目；可选。" }
         },
         "required": []
       },
@@ -121,11 +125,16 @@
     {
       "name": "get_ticketing_policy",
       "display_name": "价格与货盘",
-      "description": "价格问题的唯一入口：门票 / 陪同 / 护具租赁/买断 / 私教体验 / 多次卡 / 节假日活动价全部在 pricing.catalog 中，含门市价、团购、直播、美团多渠道价。并包含使用规则（进出次数、超时、陪同等）与购票/办卡入口。用户问「门票多少钱」「护具多少」「五一有活动吗」「办卡在哪」等时使用；回答价格与规则后，宜主动补充购票或门店入口。",
+      "description": "价格问题的唯一入口：门票 / 陪同 / 护具租赁/买断 / 私教体验 / 多次卡 / 节假日活动价都在 pricing.catalog。支持按分类、商品名、销售期、有效期筛选，从长货盘里精准取数。",
       "inputSchema": {
         "type": "object",
         "properties": {
-          "venue_id": { "type": "string", "description": "场馆 ID，可选。" }
+          "venue_id": { "type": "string", "description": "场馆 ID，可选。" },
+          "category_keyword": { "type": "string", "description": "分类关键词，如「五一期间」「常规」「护具」；可选。" },
+          "product_keyword": { "type": "string", "description": "商品名关键词，如「全日票」「私教」「夜冰票」；可选。" },
+          "sale_period_keyword": { "type": "string", "description": "销售期关键词，如「5.1-5.5」；可选。" },
+          "validity_period_keyword": { "type": "string", "description": "有效期关键词；可选。" },
+          "limit_items": { "type": "integer", "description": "最多返回多少条货盘；可选。" }
         },
         "required": []
       },
@@ -193,11 +202,15 @@
     {
       "name": "get_news_and_promotions",
       "display_name": "活动与公告",
-      "description": "近期活动、公告、限时优惠。用户问「最近有什么活动」等使用。",
+      "description": "近期活动、公告、限时优惠。支持按关键词和日期区间筛选，避免长公告全量返回。",
       "inputSchema": {
         "type": "object",
         "properties": {
-          "venue_id": { "type": "string", "description": "场馆 ID，可选。" }
+          "venue_id": { "type": "string", "description": "场馆 ID，可选。" },
+          "keyword": { "type": "string", "description": "关键词（会匹配标题与正文），如「五一」「返场」；可选。" },
+          "date_from": { "type": "string", "description": "起始日期（YYYY-MM-DD），可选。" },
+          "date_to": { "type": "string", "description": "结束日期（YYYY-MM-DD），可选。" },
+          "limit_items": { "type": "integer", "description": "最多返回多少条公告；可选。" }
         },
         "required": []
       },
