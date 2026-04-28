@@ -1,6 +1,10 @@
 node_modules/
 .env
-# 私有：MCP 服务、场馆 YAML、飞书集成；公开仓库不跟踪此目录
+.env.*
+# 公开 Skill 仓库不包含场馆/经营性数据文件
+*.yaml
+*.yml
+# 私有：MCP 服务
 mcp_server/
 *.log
 .omc/

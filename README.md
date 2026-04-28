@@ -2,9 +2,9 @@
 
 ![Version](https://img.shields.io/badge/version-0.1.0-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![MCP](https://img.shields.io/badge/protocol-MCP-purple) ![Transport](https://img.shields.io/badge/transport-Streamable%20HTTP-orange)
 
-这是一个可交付给冰场门店的 **公开 Skill 元数据包**：安装后，Agent 通过 **远程 MCP（Streamable HTTP）** 回答票价、冰时、位置、教练、课程、公告等事实信息，并在用户确认后通过 **`submit_booking_record`** 提交预约登记（写飞书在服务端完成，客户端不接触密钥）。
+这是一个可交付给冰场门店的 **公开 Skill 元数据包**：安装后，Agent 通过 **远程 MCP（Streamable HTTP）** 回答票价、冰时、位置、教练、课程、公告等事实信息，并在用户确认后通过 **`submit_booking_record`** 提交预约登记（写入动作仅在服务端完成，客户端不接触任何写入凭据）。
 
-**本仓库 intentionally 不包含** MCP 服务代码、场馆 YAML 与飞书凭证；这些由你在私有部署环境（如 Render）托管。
+**本仓库 intentionally 不包含** MCP 服务代码、经营性数据文件及任何服务端密钥；这些由你在私有部署环境（如 Render）托管。
 
 适用优先级：**OpenClaw / Claw 类工具优先**，Cursor / Trae 也可用。
 
@@ -54,7 +54,7 @@
 
 - 先调 MCP，再回答；不得编造价格与规则。
 - 价格问题一律调 `get_ticketing_policy`。
-- 预约须在用户明确同意后再调用 `submit_booking_record`；客户端不要配置 `FEISHU_*`。
+- 预约须在用户明确同意后再调用 `submit_booking_record`；客户端不得配置服务端写入凭据。
 
 ## 目录结构（公开仓库）
 
@@ -63,16 +63,15 @@ shanwan-ice-arena-skill/
 ├── README.md
 ├── SKILL.md
 ├── skill.json
-├── LICENSE
-└── .env.example            # 说明性占位，无密钥
+└── LICENSE
 ```
 
-部署侧 MCP 服务、场馆 YAML、飞书环境变量由你在 **私有仓库或 Render 控制台** 维护，不在此处开源。
+部署侧 MCP 服务与经营数据由你在 **私有仓库或托管平台控制台** 维护，不在此处开源。
 
 ## 验证
 
 - MCP URL 可访问且返回工具列表中含上述工具（含 `submit_booking_record`）。
-- 若连接失败，检查 HTTPS、路径 `/mcp`、以及部署环境变量（`PORT`、`ICE_ARENA_MCP_*` 等）。
+- 若连接失败，检查 HTTPS、路径 `/mcp`，以及线上部署是否正常对外监听。
 
 ## 技术协议
 
@@ -80,7 +79,7 @@ shanwan-ice-arena-skill/
 |------|------|
 | 协议 | MCP (Model Context Protocol) |
 | 传输 | Streamable HTTP（远程） |
-| 数据与写入 | 由部署方在服务进程内加载 YAML 并调用飞书 API |
+| 数据与写入 | 由部署方在意图明确时通过 MCP 工具完成；凭据仅在服务端 |
 
 ## 版本
 
