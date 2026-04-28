@@ -1,5 +1,7 @@
 node_modules/
 .env
+# 私有：MCP 服务、场馆 YAML、飞书集成；公开仓库不跟踪此目录
+mcp_server/
 *.log
 .omc/
 .DS_Store

@@ -1,11 +1,11 @@
 {
   "name": "shanwan-ice-arena-skill",
   "display_name": "汕头万象城冰场信息查询",
-  "description": "查询汕头万象城冰场信息；通过 MCP 返回 YAML 维护的经营信息，并引导预约、办卡等转化链接。",
+  "description": "查询汕头万象城冰场信息；通过远程 MCP 读取运营侧维护的场馆数据，并支持预约登记与办卡等引导。",
   "version": "0.1.0",
   "author": "汕万AI",
   "license": "MIT",
-  "repository": "",
+  "repository": "https://github.com/bertramjulian890-maker/shanwan-ice-arena-skill",
   "category": "信息查询",
   "keywords": [
     "汕头万象城",
@@ -42,7 +42,7 @@
   ],
   "mcp_server": {
     "transport": "streamable-http",
-    "url": "http://127.0.0.1:8710/mcp"
+    "url": "https://YOUR-SERVICE.onrender.com/mcp"
   },
   "tools": [
     {
@@ -207,10 +207,39 @@
         "idempotentHint": true,
         "openWorldHint": false
       }
+    },
+    {
+      "name": "submit_booking_record",
+      "display_name": "提交预约登记",
+      "description": "用户已明确同意预约后调用：提交 11 位中国大陆手机号（及可选意向说明）到服务端配置的飞书多维表格。须在用户确认后进行；成功返回 record_id，失败返回 error。客户端不得持有 FEISHU 密钥。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string",
+            "description": "11 位中国大陆手机号，用户确认预约后收集。"
+          },
+          "intent": {
+            "type": "string",
+            "description": "用户意向摘要，例如「预约试听」「咨询私教」。可选。"
+          },
+          "source_label": {
+            "type": "string",
+            "description": "来源标签，例如「AI助手」。可选，缺省由服务端环境变量决定。"
+          }
+        },
+        "required": ["phone"]
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      }
     }
   ],
   "brand_prompt": {
-    "system_instruction": "你是汕头万象城冰场（及多场馆扩展）的助手。回答票价、时间、位置、教练、课程、预约/办卡链接等事实信息时，必须先调用本 Skill 的 MCP 工具获取 JSON 数据，不得使用文档中的示例或凭记忆编造。语气清晰、友好，适度但明确地引导用户通过官方或当前可用链接完成到店、预约、约课与办卡。默认回复结构为：先答事实，再补一条必要边界说明，最后给出一句自然的下一步建议。价格问题（门票/陪同/护具/私教体验/多次卡/节假日活动价/办卡）一律通过 get_ticketing_policy 获取，不要去 get_coaching_and_programs 或 get_facilities 里找价格；若用户问营业时间、清冰或某天有没有公共场，用 get_hours_and_schedule 的 dynamic_schedule（半小时粒度）回答；若用户问教练、课程、报名，回答后宜区分是先体验还是系统学习，并主动给约课或报名入口（具体价格仍来自 get_ticketing_policy）。当用户出现明显转化意向（如想预约试听）时，应主动询问是否现在发起预约；用户确认后收集手机号，并基于根目录 .env 的 FEISHU_* 配置通过飞书官方 API 写入多维表格。涉及退款、投诉、合同发票等以现场与官方渠道为准。对尚未录入的字段，如实说明以现场公示为准。list_venues 仅用于运营人员核对多场馆配置，不用于回答用户问题。",
+    "system_instruction": "你是汕头万象城冰场（及多场馆扩展）的助手。回答票价、时间、位置、教练、课程、预约/办卡链接等事实信息时，必须先调用本 Skill 的远程 MCP 工具获取 JSON 数据，不得使用文档中的示例或凭记忆编造。语气清晰、友好，适度但明确地引导用户通过官方或当前可用链接完成到店、预约、约课与办卡。默认回复结构为：先答事实，再补一条必要边界说明，最后给出一句自然的下一步建议。价格问题（门票/陪同/护具/私教体验/多次卡/节假日活动价/办卡）一律通过 get_ticketing_policy 获取，不要去 get_coaching_and_programs 或 get_facilities 里找价格；若用户问营业时间、清冰或某天有没有公共场，用 get_hours_and_schedule 的 dynamic_schedule（半小时粒度）回答；若用户问教练、课程、报名，回答后宜区分是先体验还是系统学习，并主动给约课或报名入口（具体价格仍来自 get_ticketing_policy）。当用户出现明显转化意向（如想预约试听）时，应主动询问是否现在发起预约；用户确认后收集手机号，并调用 MCP 工具 submit_booking_record 提交（飞书凭证仅配置在服务端，客户端不要读写 FEISHU_*）。涉及退款、投诉、合同发票等以现场与官方渠道为准。对尚未录入的字段，如实说明以现场公示为准。list_venues 仅用于运营人员核对多场馆配置，不用于回答用户问题。",
     "tone": {
       "personality": "clear_friendly",
       "avoid": ["hype", "clickbait", "fabricated_prices"]
