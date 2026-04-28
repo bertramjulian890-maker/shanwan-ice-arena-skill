@@ -1,0 +1,22 @@
+[project]
+name = "ice-arena-mcp"
+version = "0.1.0"
+description = "MCP server for Shanwan ice arena venue data (YAML-backed)."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "mcp[cli]>=1.2.0",
+  "pydantic>=2.0",
+  "pyyaml>=6.0",
+]
+
+[project.scripts]
+ice-arena-mcp = "ice_arena_mcp.__main__:main"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ice_arena_mcp*"]

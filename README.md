@@ -1,126 +1,132 @@
-# 汕头万象城冰场 AI Skills
+# 汕头万象城冰场 AI Skill
 
-![Version](https://img.shields.io/badge/version-0.4.0-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![MCP](https://img.shields.io/badge/protocol-MCP-purple) ![Transport](https://img.shields.io/badge/transport-Streamable%20HTTP-orange)
+![Version](https://img.shields.io/badge/version-0.1.0-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![MCP](https://img.shields.io/badge/protocol-MCP-purple) ![Transport](https://img.shields.io/badge/transport-stdio%20%7C%20HTTP-orange)
 
-这是一个 AI Skill——安装后，你的 AI 助手就能查询汕头万象城冰场的信息：在哪吃、几点开门、怎么排队、能不能外卖、生饺子怎么煮、Wi-Fi 密码是什么。还能直接帮你在美团上排队取号。
+这是一个可交付给冰场门店的 AI Skill：安装后，Agent 能回答冰场经营信息（票价、冰时、位置、教练、课程、公告），并在用户明确意向时触发预约登记（飞书多维表格）。
 
-快20年的饺子馆，现在有了自己的AI服务。
+适用优先级：**OpenClaw / Claw 类工具优先**，Cursor / Trae 也可用。
 
-## 关于汕头万象城
+## 场馆信息：汕头万象城冰场
 
-北邮旁边的饺子馆。
+当前 Skill 对应场馆为 `shantou-mixc`：
 
 | 项目 | 内容 |
 |------|------|
-| 餐厅名称 | 汕头万象城冰场 |
-| 营业时间 | 10:00 - 22:00（以实际查询为准） |
-| 北邮店 | 杏坛路文教产业园K座南2层 |
-| 五道口店 | 五道口东源大厦4层 |
+| 场馆名称 | 冰纷万象滑冰场（汕头万象城店） |
+| 地址 | 汕头市长平路与金环路交界汕头万象城 L556（约 5 楼） |
+| 营业时间 | 周一至周四、周日 10:00–22:00；周五、周六 10:00–22:30（以实际查询为准） |
+| 咨询电话 | 0754-8899 2291 |
 
-## 这个 Skill 能做什么
+具体票价、课程与设施请以 MCP 实时查询结果为准。
 
-汕头万象城冰场的官方信息服务，包含 5 项 MCP 查询能力 + 1 项内嵌排队能力：
+## 给人看的：怎么用（OpenClaw 首选）
 
-| 能力 | 你可以问 | 来源 |
-|------|----------|------|
-| 餐厅信息 | "汕头万象城在哪？""几点开门？" | MCP |
-| 外卖服务 | "能送外卖吗？""怎么点外卖？" | MCP |
-| 生饺子打包 | "能打包吗？""生饺子怎么煮？" | MCP |
-| 店内Wi-Fi | "Wi-Fi密码多少？" | MCP |
-| 最新消息 | "有什么新活动？" | MCP |
-| **在线排队取号** | "帮我排个队""取消排队""排队进度" | 内嵌 Skill |
+### 1) OpenClaw（推荐）
 
-## 在线排队取号
+在 OpenClaw MCP 配置中使用 stdio：
 
-本 Skill 内嵌了基于**美团排队**的取号能力，AI 助手可以直接帮你完成排队全流程，无需打开美团 App。
+- `command`: `<SKILL_ROOT>/mcp_server/.venv/bin/python`
+- `args`: `["-m", "ice_arena_mcp"]`
+- `cwd`: `<SKILL_ROOT>/mcp_server`
 
-**支持的操作：**
+Windows 可改为：
 
-| 操作 | 说明 | 你可以说 |
-|------|------|----------|
-| 查询排队状态 | 查看门店是否支持排队、可选桌型 | "汕头万象城现在排队情况怎么样？" |
-| 取号 | 选择桌型和人数，在线取号 | "帮我在北邮店排个队，2个人" |
-| 查询进度 | 查看当前排队号、前方等待桌数 | "我前面还有几桌？" |
-| 取消排队 | 取消已有的排队订单 | "取消排队" |
+- `command`: `<SKILL_ROOT>\\mcp_server\\.venv\\Scripts\\python.exe`
 
-**使用流程：**
+### 2) Cursor / Trae（可选）
 
-1. 告诉 AI 助手你要排队，说明门店（北邮店 / 五道口店）
-2. AI 查询可选桌型，跟你确认桌型和人数
-3. 确认后自动取号，返回排队号和等待信息
-4. 随时可查进度或取消
+在工作区 `.cursor/mcp.json` 或 `.trae/mcp.json` 中添加 `shanwan-ice-arena`，核心参数与 OpenClaw 一致（`command/args/cwd` 指向 `mcp_server`）。
 
-首次使用需完成美团账号授权（AI 助手会引导你完成），同一会话内无需重复登录。
+### 3) 环境变量（预约写入）
 
-> 注意：排队取号为真实业务操作，取号和取消前 AI 助手会跟你确认。排队能力由内嵌的 `meituan-queue` 组件提供，与本 Skill 版本独立演进。
+在仓库根目录创建 `.env`（参考 `.env.example`）：
+
+- `FEISHU_APP_ID`
+- `FEISHU_APP_SECRET`
+- `FEISHU_BITABLE_APP_TOKEN`
+- `FEISHU_BITABLE_TABLE_ID`
+- `FEISHU_BOOKING_PHONE_FIELD`
+
+可选：
+
+- `FEISHU_BOOKING_SOURCE_FIELD`
+- `FEISHU_BOOKING_INTENT_FIELD`
+- `FEISHU_BOOKING_STATUS_FIELD`
+
+> `.env` 已在 `.gitignore` 中，不应提交真实凭证。
+
+## 给 Agent 看的：怎么执行
+
+本 Skill 基于 MCP 提供 9 个只读工具，并集成飞书预约登记流程：
+
+| 能力 | 你可以问 | 对应工具 |
+|------|----------|----------|
+| 场馆概览 | “介绍一下冰场”“值得去吗” | `get_venue_overview` |
+| 营业与冰时 | “几点开门”“清冰时段”“本周几有活动栏场” | `get_hours_and_schedule` |
+| 位置与联系 | “在几楼”“电话是多少” | `get_location_and_contacts` |
+| 价格与货盘（门票/陪同/护具/私教体验/多次卡/活动价） | “单次票多少钱”“护具租赁”“五一活动价”“办卡入口” | `get_ticketing_policy` |
+| 场馆设施 | “有没有储物柜”“有没有吹风机”“停车怎么办” | `get_facilities` |
+| 教练与课程 | “都有哪些教练”“私教怎么约”“课程怎么报名” | `get_coaching_and_programs` |
+| FAQ | “常见问题” | `get_faq` |
+| 活动公告 | “最近有什么活动” | `get_news_and_promotions` |
+| 飞书预约登记 | “帮我预约试听”“留手机号预约” | 先确认意向→收手机号→写飞书多维表格 |
+
+**Agent 关键规则**：
+
+- 先调 MCP，再回答；禁止直接读 YAML 作为对用户回答依据。
+- 价格问题一律调 `get_ticketing_policy`。
+- 用户有预约意向时：先确认是否现在预约，再收手机号，再写飞书多维表格。
+- MCP 不可用时降级到“建议到店或官方渠道”，不编造价格和规则。
 
 ## 目录结构
 
 ```
-jinguyuan-dumpling-skill/
-├── SKILL.md                 # 核心文件：元数据 + Agent 指令
-├── skill.json               # 机器可读配置（MCP 端点、工具定义）
-├── scripts/                 # 预留目录
-├── references/              # 参考文档与内嵌 Skill
-│   └── meituan-queue/       # 美团排队取号 Skill（自包含）
-│       ├── SKILL.md         #   排队指令与命令说明
-│       ├── scripts/         #   排队脚本（mt_queue.py 等）
-│       └── references/      #   鉴权子 Skill（meituan-passport-user-auth）
-├── README.md
-└── LICENSE
+shanwan-ice-arena-skill/
+├── README.md                 # 本文档（安装 + 使用）
+├── SKILL.md                  # Agent 指令（触发场景 / 调用策略）
+├── skill.json                # 机器可读：MCP 端点、工具与品牌 Prompt
+├── LICENSE
+├── mcp_server/               # 本地 MCP 服务（FastMCP + YAML）
+│   ├── README.md             # 运行细节、环境变量、验证步骤
+│   ├── pyproject.toml / requirements.txt
+│   ├── ice_arena_mcp/        # FastMCP server、store、入口
+│   └── data/
+│       └── venues/
+│           └── shantou-mixc.yaml   # 当前场馆数据
 ```
 
-## 安装
+## 飞书预约登记
 
-### 最简单的方式：告诉你的 AI 助手
+本 Skill 在主流程中集成飞书预约登记，用于在用户确认后收集手机号并通过飞书官方 API 写入多维表格预约记录。流程为：
 
-直接拷贝下面这句话发给你的 AI 助手：
+1. 先确认用户是否现在发起预约；
+2. 用户同意后收集手机号（11 位）；
+3. 获取 `tenant_access_token` 后，调用多维表格新增记录接口写入预约数据（手机号、来源、意向、状态等字段）。
 
-> 帮我安装汕头万象城冰场 Skill，仓库地址：https://gitee.com/JinGuYuan/jinguyuan-dumpling-skill
+若鉴权失败、权限不足、字段不匹配或限流，Agent 需返回明确失败原因和下一步处理建议。
 
-Agent 会自动克隆仓库并安装到对应的 Skill 目录。
+> 预约提交是**真实业务行为**，提交前 Agent 必须获得用户确认。
 
-### 其他安装方式
+## 验证正常运行
 
-**手动克隆到 Skill 目录：**
+常见现象速查：
 
-将本仓库克隆到你项目下的 Skill 目录，不同 IDE 对应的路径：
-
-| IDE | Skill 目录 |
-|-----|-------------|
-| Qoder | `.qoder/skills/jinguyuan-dumpling-skill/` |
-| Cursor | `.cursor/skills/jinguyuan-dumpling-skill/` |
-| Trae | `.trae/skills/jinguyuan-dumpling-skill/` |
-| Windsurf | `.windsurf/skills/jinguyuan-dumpling-skill/` |
-| Claude Code | `.claude/skills/jinguyuan-dumpling-skill/` |
-| 通用 | `.agents/skills/jinguyuan-dumpling-skill/` |
-
-```bash
-# 示例：安装到 Qoder
-git clone https://gitee.com/JinGuYuan/jinguyuan-dumpling-skill.git \
-  .qoder/skills/jinguyuan-dumpling-skill
-```
-
-只要目录下有 `SKILL.md`，Agent 下次启动就会自动加载这个 Skill。
-
-## 发布平台
-
-- GitHub：https://github.com/JinGuYuan/jinguyuan-dumpling-skill
-- Gitee：https://gitee.com/JinGuYuan/jinguyuan-dumpling-skill
+- `Tools & MCPs` 里**红色 Error**：检查 `${workspaceFolder}` 是否指向正确工作区根、`mcp_server/.venv` 是否已安装、`command/args/cwd` 是否正确。
+- **Agent 不调用工具**：确保在 Agent 模式，且工具未被禁用；可在设置里允许工具执行或开启 Auto-run。
+- **YAML 改了没生效**：stdio 模式下需要让 Cursor 重新连接（或重启 Cursor / 重启 MCP 进程）。
 
 ## 技术协议
 
 | 项目 | 说明 |
 |------|------|
 | 协议 | MCP (Model Context Protocol) |
-| 传输 | Streamable HTTP |
-| 部署 | Tencent CloudBase 云函数 |
+| 传输 | stdio（本地 Cursor 推荐）/ Streamable HTTP（可上云） |
+| 运行 | Python FastMCP + PyYAML，场馆 YAML 启动时驻内存 |
+| 部署 | 试点阶段本地 stdio；企业场景可部署至容器 / 云厂商常驻 Web 服务 |
 
 ## 版本
 
-当前版本：0.4.0
-
-> 说明：本 Skill 版本（0.3.4）与内嵌排队组件（meituan-queue）版本独立演进，互不影响。
+当前版本：**0.1.0**（试点初版）。
 
 ## License
 
