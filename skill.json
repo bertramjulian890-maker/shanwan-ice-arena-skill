@@ -42,7 +42,7 @@
   ],
   "mcp_server": {
     "transport": "streamable-http",
-    "url": "https://YOUR-SERVICE.onrender.com/mcp"
+    "url": "https://shanwan-ice-arena-skill.onrender.com/mcp"
   },
   "tools": [
     {

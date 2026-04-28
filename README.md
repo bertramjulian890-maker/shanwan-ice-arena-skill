@@ -25,12 +25,12 @@
 
 ### 1) 配置远程 MCP
 
-在 `skill.json` 中把 `mcp_server.url` 改成你的线上端点，例如：
+本仓库 `skill.json` 已指向线上 MCP（可自行 fork 后改为你的端点）：
 
 ```json
 "mcp_server": {
   "transport": "streamable-http",
-  "url": "https://your-service.onrender.com/mcp"
+  "url": "https://shanwan-ice-arena-skill.onrender.com/mcp"
 }
 ```
 
